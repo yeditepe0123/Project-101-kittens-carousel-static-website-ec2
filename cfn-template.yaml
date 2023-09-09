@@ -21,11 +21,11 @@ Resources:
   WebServerHost:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-05fa00d4c63e32376
+      ImageId: ami-09239b9a6b1c06843
       InstanceType: t2.micro
-      KeyName: serdar
+      KeyName: firstkey1
       SecurityGroupIds:
-        - !Ref WebServerSecurityGroup
+        - !Ref default-ssh-http
       Tags:
         -                        
           Key: Name
@@ -35,7 +35,7 @@ Resources:
             #! /bin/bash
             yum update -y
             yum install httpd -y
-            FOLDER="https://raw.githubusercontent.com/serdarcw/project-repository/master/Project-101-kittens-carousel-static-website-ec2/static-web"
+            FOLDER="https://github.com/yeditepe0123/project_kitten_cfn/tree/main/static-web"
             cd /var/www/html
             wget ${FOLDER}/index.html
             wget ${FOLDER}/cat0.jpg
