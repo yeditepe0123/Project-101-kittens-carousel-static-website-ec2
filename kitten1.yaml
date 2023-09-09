@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This CloudFormation Template was written for
+  running Kittens Carousel Static Website on EC2.
+  Kittens Carousel Static Website will be
+  deployed on Amazon Linux 2023 EC2 Instance with custom 
+  security group which allows http connections on port 80 
+  and ssh port 22 from anywhere. Kittens Carousel Static 
+  Website is downloaded from my Public Github repository,
+  then deployed on Apache Web Server.
+# Parameters:
+#   LatestAmiId:
+#     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+#     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+Resources:
+  KittenCarouselProject:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-09239b9a6b1c06843
+      InstanceType: t2.micro
+      KeyName: firstkey1
+      SecurityGroups: 
+        - !Ref ProjectSecGrp
+      Tags: 
+        - Key: Name
+          Value: AkifInstance
+        - Key: Project
+          Value: Kitten-Carousel-Project
+      UserData: 
+        Fn::Base64: !Sub |
+            #! /bin/bash
+            sudo dnf update -y
+            sudo dnf install httpd -y
+            cd /var/www/html/
+            sudo chmod -R 777 /var/www/html/
+            FLDR=https://raw.githubusercontent.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/tree/main/static-web/
+            wget $FLDR/cat0.jpg
+            wget $FLDR/cat1.jpg
+            wget $FLDR/cat2.jpg
+            wget $FLDR/index.html
+            sudo systemctl start httpd
+            sudo systemctl enable httpd
+  ProjectSecGrp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "This security group enables SSH and HTTP protocols." # Required
+      GroupName: "Kitten-Carousel-Sec-Grp"
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
