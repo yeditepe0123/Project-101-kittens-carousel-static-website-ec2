@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2023-09-09
+AWSTemplateFormatVersion: 2010-09-09
 Description: |
   This temp launches an ec2 instance with a SG which enables SSH.
   
