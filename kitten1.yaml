@@ -13,14 +13,14 @@ Description: |
 #     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
 #     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
 Resources:
-  KittenCarouselProject:
+  WebServerHost:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-09239b9a6b1c06843
       InstanceType: t2.micro
       KeyName: firstkey1
       SecurityGroups: 
-        - !Ref ProjectSecGrp
+        - !Ref WebServerSecurityGroup
       Tags: 
         - Key: Name
           Value: AkifInstance
@@ -40,7 +40,7 @@ Resources:
             wget $FLDR/index.html
             sudo systemctl start httpd
             sudo systemctl enable httpd
-  ProjectSecGrp:
+  WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: "This security group enables SSH and HTTP protocols." # Required
