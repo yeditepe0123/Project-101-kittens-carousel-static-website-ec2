@@ -5,7 +5,7 @@ Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-0f409bae3775dc8e5  # Kullandığınız AMI-ID'yi buraya ekleyin
+      ImageId: ami-07fd6345295d8e305  # Kullandığınız AMI-ID'yi buraya ekleyin
       InstanceType: t2.micro  # EC2 Örnek Türünüzü buraya ekleyin
       KeyName: firstkey1  # Key Pair adınızı buraya ekleyin
       SecurityGroups:
@@ -15,13 +15,15 @@ Resources:
           #!/bin/bash -xe
           yum update -y
           yum install -y httpd mod_ssl
-          service httpd start
-          chkconfig httpd on
-          wget -O /etc/pki/tls/private/server.key https://your-key-url/server.key  # Özel anahtarınızın URL'sini buraya ekleyin
-          wget -O /etc/pki/tls/certs/server.crt https://your-cert-url/server.crt  # SSL/TLS sertifikanızın URL'sini buraya ekleyin
-          wget -O /etc/httpd/conf.d/ssl.conf https://your-ssl-config-url/ssl.conf  # SSL/TLS yapılandırma dosyanızın URL'sini buraya ekleyin
           systemctl start httpd
           systemctl enable httpd
+          sudo wget https://github.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/raw/main/static-web/index.html -O /var/www/html/index.html
+          sudo wget https://github.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/raw/main/static-web/cat0.jpg -O /var/www/html/cat0.jpg
+          sudo wget https://github.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/raw/main/static-web/cat1.jpg -O /var/www/html/cat1.jpg
+          sudo wget https://github.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/raw/main/static-web/cat2.jpg -O /var/www/html/cat2.jpg
+          sudo wget https://github.com/yeditepe0123/Project-101-kittens-carousel-static-website-ec2/raw/main/static-web/cat3.png -O /var/www/html/cat3.png
+          sudo systemctl start httpd
+          sudo systemctl enable httpd
 
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
