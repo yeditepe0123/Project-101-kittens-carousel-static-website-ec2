@@ -1,11 +1,18 @@
+
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Apache Web Server with SSL/TLS Configuration
+
+# Use public Systems Manager Parameter
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
 
 Resources:
   MyEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-07fd6345295d8e305  # Kullandığınız AMI-ID'yi buraya ekleyin
+      ImageId: !Ref LatestAmiId  # Latest AMI
       InstanceType: t2.micro  # EC2 Örnek Türünüzü buraya ekleyin
       KeyName: firstkey1  # Key Pair adınızı buraya ekleyin
       SecurityGroups:
